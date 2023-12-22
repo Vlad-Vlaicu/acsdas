@@ -9,7 +9,6 @@ def test(net):
 
     print("Running base test with only one server")
 
-    time.sleep(4)
     
     # Wait for the client command to finish and retrieve its output
     output = net.get("c1").waitOutput()
