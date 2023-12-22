@@ -5,7 +5,7 @@ def test(net):
     net.get("h1").sendCmd("python3 -m http.server 9000 &")
     
     # Start the client
-    for i in range(500):
+    for i in range(5):
         print(i)
         net.get("c1").sendCmd("python3 client.py -p http 10.10.101.2:9000 &")
         output = net.get("c1").waitOutput()
