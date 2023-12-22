@@ -7,12 +7,7 @@ def test(net):
     # Start the client
     for i in range(100):
         print(i)
-        output = net.get("c1").waitOutput()
-        print("Client output:")
-        print(output)
         net.get("c1").sendCmd("python3 client.py -p http 10.10.101.2:9000 &")
-    
-    time.sleep(4)
     # Wait for the client command to finish and retrieve its output
     output = net.get("c1").waitOutput()
     print("Client output:")

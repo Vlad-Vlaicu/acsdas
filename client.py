@@ -61,7 +61,7 @@ def disp_http(resp_list):
             sm_color = ANSI_RED
 
         # print the info
-        logfile = open('client_log.txt', 'w+')
+        logfile = open('client_log.txt', 'a')
         print('%sURL :%s %s%s' % \
               (ANSI_BOLD, ANSI_UNBOLD, resp[0], ANSI_CLR), file = logfile)
         print('%sCODE:%s %s%d%s' % \
