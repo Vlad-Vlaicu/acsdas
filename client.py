@@ -45,7 +45,7 @@ def http_get(url: str):
 
 # disp_http - display http responses
 #   @resp_list : value returned by http_get()
-def disp_http(resp_list):
+def disp_http(resp_list, logfile):
     for resp in resp_list:
         # select color for status message depending on class
         sm_color = ANSI_MAGENTA     # this signifies an invalid code
@@ -61,7 +61,6 @@ def disp_http(resp_list):
             sm_color = ANSI_RED
 
         # print the info
-        logfile = open('client_log.txt', 'w+')
         print('%sURL :%s %s%s' % \
               (ANSI_BOLD, ANSI_UNBOLD, resp[0], ANSI_CLR), file = logfile)
         print('%sCODE:%s %s%d%s' % \
@@ -69,7 +68,7 @@ def disp_http(resp_list):
         print('%sTIME:%s %d [microsecs]%s' % \
               (ANSI_BOLD, ANSI_UNBOLD, resp[2], ANSI_CLR), file = logfile)
         print("\n", file = logfile)
-        logfile.close()
+    
 
 
 ################################################################################
@@ -81,7 +80,7 @@ def send_requests(server_url, num_requests):
     for request_num in range(num_requests):
         print("For request number {}".format(request_num), file = logfile)
         response = http_get(server_url)
-        disp_http(response)
+        disp_http(response, logfile)
     logfile.close()
 
 def main():
