@@ -13,8 +13,9 @@ def test(net):
     
     # Wait for the client command to finish and retrieve its output
     output = net.get("c1").waitOutput()
-    print("Client output:")
-    print(output)
+    client_output_lines = output.split('\n')
+    for i in range(num_requests):
+        print(f"Output for request {i + 1}: {client_output_lines[i]}")
 
     print("Done")
     print("hint:Quit and check client_log.txt")
