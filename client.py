@@ -100,12 +100,12 @@ def main():
         if not cfg.URL.startswith('http://'):
             cfg.URL = 'http://' + cfg.URL
 
-        send_requests(cfg.URL, cfg.num_requests)
+        send_requests(cfg.URL, 100)
     elif cfg.proto == 'https':
         if not cfg.URL.startswith('https://'):
             cfg.URL = 'https://' + cfg.URL
 
-        send_requests(cfg.URL, cfg.num_requests)
+        send_requests(cfg.URL, 100)
     else:
         parser.print_help()
         exit(-1)
