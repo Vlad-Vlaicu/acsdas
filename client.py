@@ -77,9 +77,12 @@ def disp_http(resp_list):
 ################################################################################
 
 def send_requests(server_url, num_requests):
-    for _ in range(num_requests):
+    logfile = open('client_log.txt', 'w+')
+    for request_num in range(num_requests):
+        print("For request number {}".format(request_num))
         response = http_get(server_url)
         disp_http(response)
+    logfile.close()
 
 def main():
     # parse CLI arguments
