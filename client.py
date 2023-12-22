@@ -45,7 +45,7 @@ def http_get(url: str):
 
 # disp_http - display http responses
 #   @resp_list : value returned by http_get()
-def disp_http(resp_list, logfile):
+def disp_http(resp_list):
     for resp in resp_list:
         # select color for status message depending on class
         sm_color = ANSI_MAGENTA     # this signifies an invalid code
@@ -61,6 +61,7 @@ def disp_http(resp_list, logfile):
             sm_color = ANSI_RED
 
         # print the info
+        logfile = open('client_log.txt', 'w+')
         print('%sURL :%s %s%s' % \
               (ANSI_BOLD, ANSI_UNBOLD, resp[0], ANSI_CLR), file = logfile)
         print('%sCODE:%s %s%d%s' % \
@@ -68,20 +69,12 @@ def disp_http(resp_list, logfile):
         print('%sTIME:%s %d [microsecs]%s' % \
               (ANSI_BOLD, ANSI_UNBOLD, resp[2], ANSI_CLR), file = logfile)
         print("\n", file = logfile)
-    
+        logfile.close()
 
 
 ################################################################################
 ############################## SCRIPT ENTRY POINT ##############################
 ################################################################################
-
-def send_requests(server_url, num_requests):
-    logfile = open('client_log.txt', 'w+')
-    for request_num in range(num_requests):
-        print("For request number {}".format(request_num), file = logfile)
-        response = http_get(server_url)
-        disp_http(response, logfile)
-    logfile.close()
 
 def main():
     # parse CLI arguments
@@ -91,7 +84,6 @@ def main():
     parser.add_argument('-p', '--proto',
                         help='application protocol',
                         choices=[ 'http', 'https' ])
-    parser.add_argument('-n', '--num-requests', type=int, default=10, help='Number of requests to send')
     cfg = parser.parse_args()
 
     # select backend depending on protocol
@@ -99,12 +91,14 @@ def main():
         if not cfg.URL.startswith('http://'):
             cfg.URL = 'http://' + cfg.URL
 
-        send_requests(cfg.URL, 100)
+        ans = http_get(cfg.URL)
+        disp_http(ans)
     elif cfg.proto == 'https':
         if not cfg.URL.startswith('https://'):
             cfg.URL = 'https://' + cfg.URL
 
-        send_requests(cfg.URL, 100)
+        ans = http_get(cfg.URL)
+        disp_http(ans)
     else:
         parser.print_help()
         exit(-1)
