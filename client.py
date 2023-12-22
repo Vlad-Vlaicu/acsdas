@@ -76,6 +76,11 @@ def disp_http(resp_list):
 ############################## SCRIPT ENTRY POINT ##############################
 ################################################################################
 
+def send_requests(server_url, num_requests):
+    for _ in range(num_requests):
+        response = http_get(server_url)
+        disp_http(response)
+
 def main():
     # parse CLI arguments
     parser = argparse.ArgumentParser()
@@ -84,6 +89,7 @@ def main():
     parser.add_argument('-p', '--proto',
                         help='application protocol',
                         choices=[ 'http', 'https' ])
+    parser.add_argument('-n', '--num-requests', type=int, default=10, help='Number of requests to send')
     cfg = parser.parse_args()
 
     # select backend depending on protocol
@@ -91,14 +97,12 @@ def main():
         if not cfg.URL.startswith('http://'):
             cfg.URL = 'http://' + cfg.URL
 
-        ans = http_get(cfg.URL)
-        disp_http(ans)
+        send_requests(cfg.URL, cfg.num_requests)
     elif cfg.proto == 'https':
         if not cfg.URL.startswith('https://'):
             cfg.URL = 'https://' + cfg.URL
 
-        ans = http_get(cfg.URL)
-        disp_http(ans)
+        send_requests(cfg.URL, cfg.num_requests)
     else:
         parser.print_help()
         exit(-1)
